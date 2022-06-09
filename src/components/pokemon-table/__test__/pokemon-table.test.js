@@ -50,7 +50,7 @@ describe("Pokemon table", () => {
       expect(firstsName.textContent).not.toBe(secondName.textContent)
     })
 
-    describe("Each pokemon must have two buttons to edit and remove with a unique id", () => {
+    describe("Each pokemon must have two icon-buttons to edit and remove with a unique id", () => {
       it("Each pokemon must have two icon-buttons", async () => {
         render(<PokemonTable />)
         const [Poke1,Poke2] = await screen.findAllByRole('Pokemon')
@@ -61,9 +61,14 @@ describe("Pokemon table", () => {
         expect(await within(Edit2).findByAltText('edit'))
         expect(await within(Remove2).findByAltText('remove'))
       })
-      xit("The id must be unique", () => {
+      it("The id must be unique", async () => {
+        const Bulbasaur1ID = 7612
         render(<PokemonTable />)
-
+        const [Poke1,Poke2] = await screen.findAllByRole('Pokemon')
+        const [editPsyduck,removePsyduck] = await within(Poke1).findAllByTestId(Psyduck.id)
+        const [editBul,removeBul] = await within(Poke2).findAllByTestId(Bulbasaur1ID)
+        expect(editPsyduck.dataset.testid).not.toBe(editBul.dataset.testid)
+        expect(removePsyduck.dataset.testid).not.toBe(removeBul.dataset.testid)
       })
     })
   })
