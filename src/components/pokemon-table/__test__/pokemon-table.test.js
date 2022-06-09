@@ -21,7 +21,6 @@ describe("Pokemon table", () => {
   })
 
   describe("must get the info from the API", () => {
-    it("must display the info in their corresponding columns", async () => {
       const Psyduck = {
         id: 7611,
         name: 'Psyduck',
@@ -31,9 +30,10 @@ describe("Pokemon table", () => {
         attack: 50,
         defense: 30
       }
+    it("must display the info in their corresponding columns", async () => {
       render(<PokemonTable />)
-      // https://pokemon-pichincha.herokuapp.com/pokemons/7611 get Psyduck
-      const Poke = await screen.findByRole('Pokemon')
+      // https://pokemon-pichincha.herokuapp.com/pokemons/7612 get Bulbasaur1
+      const [Poke] = await screen.findAllByRole('Pokemon')
       const [Nombre,Imagen,Ataque,Defensa] = await within(Poke).findAllByRole('stat')
       expect(Nombre.textContent).toBe(Psyduck.name)
       expect(Imagen.textContent).toBe(Psyduck.image)
@@ -41,9 +41,13 @@ describe("Pokemon table", () => {
       expect(Defensa.textContent).toBe(Psyduck.defense.toString())
     })
 
-    xit("It should display a new pokemon in another row", () => {
+    it("It should display a new pokemon in another row", async () => {
       render(<PokemonTable />)
-
+      // https://pokemon-pichincha.herokuapp.com/pokemons/7611 get Psyduck
+      const [Poke1,Poke2] = await screen.findAllByRole('Pokemon')
+      const [Nombre1] = await within(Poke1).findAllByRole('stat')
+      const [Nombre2] = await within(Poke2).findAllByRole('stat')
+      expect(Nombre1.textContent).not.toBe(Nombre2.textContent)
     })
 
     xdescribe("Each pokemon must have two buttons to edit and remove with a unique id", () => {
