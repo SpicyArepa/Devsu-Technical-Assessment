@@ -11,11 +11,13 @@ describe("Pokemon table", () => {
 
   it("must display the headers of the table", async () => {
     render(<PokemonTable />)
-    expect(await screen.findByRole('table-header-column',{name : 'Nombre'}))
-    expect(await screen.findByRole('table-header-column',{name : 'Imagen'}))
-    expect(await screen.findByRole('table-header-column',{name : 'Ataque'}))
-    expect(await screen.findByRole('table-header-column',{name : 'Defensa'}))
-    expect(await screen.findByRole('table-header-column',{name : 'Acciones'}))
+    const [Nombre,Imagen,Ataque,Defensa,Acciones] =
+      await screen.findAllByRole('table-header-column')
+    expect(Nombre.textContent).toBe('Nombre')
+    expect(Imagen.textContent).toBe('Imagen')
+    expect(Ataque.textContent).toBe('Ataque')
+    expect(Defensa.textContent).toBe('Defensa')
+    expect(Acciones.textContent).toBe('Acciones')
   })
 
   xit("must get the info from the API", () => {
