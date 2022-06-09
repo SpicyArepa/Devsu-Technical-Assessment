@@ -3,6 +3,11 @@ import { render, screen } from "@testing-library/react"
 import PokemonTable from '../PokemonTable'
 
 describe("Pokemon table", () => {
+  it("At the beginning must display a table with 1 row and 5 columns", () => {
+    render(<PokemonTable />)
+
+  })
+
   it("must display the headers of the table", () => {
     render(<PokemonTable />)
 
