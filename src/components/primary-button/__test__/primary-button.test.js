@@ -7,22 +7,21 @@ const testButton = {
 }
 
 describe("Primary Button", () => {
-  it("Button must display a icon",async () => {
+  it("Button must display a icon",() => {
     render(<PrimaryButton />);
-    expect(await screen.findByAltText('icon'))
+    expect(screen.findByAltText('icon'))
   })
 
-  it("Button must display a text",async () => {
+  it("Button must display a text", () => {
     render(<PrimaryButton />);
-    expect(await screen.findByRole('button-text'))
+    expect(screen.findByRole('button-text'))
   })
 
-  it("Button must display the info from the props",async () => {
+  it("Button must display the info from the props", async () => {
     render(<PrimaryButton icon={testButton.icon} text={testButton.text}  />);
-    const icon = await screen.findByRole('button-icon')
+    const icon = screen.getByRole('button-icon')
     const text = await screen.findByRole('button-text')
-    console.log(icon.dataset)
-    //expect(icon.textContent).toBe('Button')
+    expect(icon).toHaveAttribute('src', 'icon.com')
     expect(text.textContent).toBe('Button')
   })
 
