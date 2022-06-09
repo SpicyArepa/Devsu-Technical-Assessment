@@ -1,8 +1,10 @@
+import MainPage from './views/main-page/MainPage'
+
 const App = () => {
 
   return (
     <>
-      Gonna Catch them all
+      <MainPage/>
     </>
   )
 }
