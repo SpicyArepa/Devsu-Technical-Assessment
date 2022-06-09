@@ -1,60 +1,57 @@
-import React from 'react'
-// import {default as edit} from '../../assets/edit.png'
-// import {default as remove} from '../../assets/remove.png'
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const PokemonTable = () => {
-  const Pokes = [{
-    id: 7611,
-    name: 'Psyduck',
-    image: 'https://i.pinimg.com/736x/85/1e/cf/851ecf1b1c06cb071c37fb3c6de2ea4a.jpg',
-    type: 'fire',
-    hp: 100,
-    attack: 50,
-    defense: 30
-  },{
-    id: 7612,
-    name: "Bulbasaur1",
-    image: "https://www.megaidea.net/wp-content/uploads/2021/08/Pokemon02-956x1024.png",
-    type: "normal",
-    hp: 100,
-    attack: 75,
-    defense: 49
-  }]
+  const [pokemons, setPokemons] = useState([]);
+
+  const getPokemons = async () => {
+    try{
+      const apiPokemons = await axios.get("https://pokemon-pichincha.herokuapp.com/pokemons/?idAuthor=1")
+      setPokemons(apiPokemons.data)
+    } catch (err) {
+      console.error(err)
+    } 
+  }
+
+  useEffect(() => {
+    getPokemons()
+  }, []);
+
   return (
     <table>
       <thead>
-        <tr role={'table-header-row'}>
-          <th role={'table-header-column'}>Nombre</th>
-          <th role={'table-header-column'}>Imagen</th>
-          <th role={'table-header-column'}>Ataque</th>
-          <th role={'table-header-column'}>Defensa</th>
-          <th role={'table-header-column'}>Acciones</th>
+        <tr role={"table-header-row"}>
+          <th role={"table-header-column"}>Nombre</th>
+          <th role={"table-header-column"}>Imagen</th>
+          <th role={"table-header-column"}>Ataque</th>
+          <th role={"table-header-column"}>Defensa</th>
+          <th role={"table-header-column"}>Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr role={'Pokemon'}>
-          <td role={'stat'} >{Pokes[0].name}</td>
-          <td role={'stat'}>{Pokes[0].image}</td>
-          <td role={'stat'}>{Pokes[0].attack}</td>
-          <td role={'stat'}>{Pokes[0].defense}</td>
-          <td role={'actions'}>
-            <button data-testid={Pokes[0].id}><img src={'../../assets/edit.png'} alt="edit" /></button>
-            <button data-testid={Pokes[0].id}><img src={'../../assets/remove.png'} alt="remove" /></button>
-          </td>
-        </tr>
-        <tr role={'Pokemon'}>
-          <td role={'stat'} >{Pokes[1].name}</td>
-          <td role={'stat'}>{Pokes[1].image}</td>
-          <td role={'stat'}>{Pokes[1].attack}</td>
-          <td role={'stat'}>{Pokes[1].defense}</td>
-          <td role={'actions'}>
-            <button data-testid={Pokes[1].id}><img src={'../../assets/edit.png'} alt="edit" /></button>
-            <button data-testid={Pokes[1].id}><img src={'../../assets/remove.png'} alt="remove" /></button>
-          </td>
-        </tr>
+        {pokemons.length > 1
+          ? pokemons.map((pokemon,index) => {
+              return (
+                <tr key={index} role={"Pokemon"}>
+                  <td role={"stat"}>{pokemon.name}</td>
+                  <td role={"stat"}>{pokemon.image}</td>
+                  <td role={"stat"}>{pokemon.attack}</td>
+                  <td role={"stat"}>{pokemon.defense}</td>
+                  <td role={"actions"}>
+                    <button data-testid={pokemon.id}>
+                      <img src={"../../assets/edit.png"} alt="edit" />
+                    </button>
+                    <button data-testid={pokemon.id}>
+                      <img src={"../../assets/remove.png"} alt="remove" />
+                    </button>
+                  </td>
+                </tr>
+              );
+            })
+          : null}
       </tbody>
     </table>
-  )
-}
+  );
+};
 
-export default PokemonTable
+export default PokemonTable;

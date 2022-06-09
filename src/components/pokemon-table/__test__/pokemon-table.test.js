@@ -1,5 +1,5 @@
 import React from 'react'
-import {findByRole, render, screen, within} from "@testing-library/react"
+import {render, screen, within} from "@testing-library/react"
 import PokemonTable from '../PokemonTable'
 
 describe("Pokemon table", () => {
@@ -62,13 +62,12 @@ describe("Pokemon table", () => {
         expect(await within(Remove2).findByAltText('remove'))
       })
       it("The id must be unique", async () => {
-        const Bulbasaur1ID = 7612
         render(<PokemonTable />)
         const [Poke1,Poke2] = await screen.findAllByRole('Pokemon')
-        const [editPsyduck,removePsyduck] = await within(Poke1).findAllByTestId(Psyduck.id)
-        const [editBul,removeBul] = await within(Poke2).findAllByTestId(Bulbasaur1ID)
-        expect(editPsyduck.dataset.testid).not.toBe(editBul.dataset.testid)
-        expect(removePsyduck.dataset.testid).not.toBe(removeBul.dataset.testid)
+        const [Edit1,Remove1] = await within(Poke1).findAllByRole('button')
+        const [Edit2,Remove2] = await within(Poke2).findAllByRole('button')
+        expect(Edit1.dataset.testid).not.toBe(Edit2.dataset.testid)
+        expect(Remove1.dataset.testid).not.toBe(Remove2.dataset.testid)
       })
     })
   })
