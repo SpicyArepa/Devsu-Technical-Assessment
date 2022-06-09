@@ -31,4 +31,10 @@ describe("Primary Button", () => {
     fireEvent.click(getByRole('button'))
     expect(testButton.onClickSpy).toHaveBeenCalled();
   })
+
+  it("Button can be disable", async () => {
+    const { getByRole } = render(<PrimaryButton disable={true} />);
+    const button = getByRole('button')
+    expect(button).toBeDisabled();
+  })
 })
