@@ -32,7 +32,7 @@ describe("Pokemon Row", () => {
     ).findAllByRole("stat");
     const [Edit, Remove] = await within(Pokemon).findAllByRole("button");
     expect(Nombre.textContent).toBe(Psyduck.name);
-    expect(Imagen.textContent).toBe(Psyduck.image);
+    expect(await within(Imagen).findByRole("img")).toHaveAttribute('src', Psyduck.image)
     expect(Ataque.textContent).toBe(Psyduck.attack.toString());
     expect(Defensa.textContent).toBe(Psyduck.defense.toString());
     expect(await within(Edit).findByAltText("edit"));

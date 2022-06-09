@@ -1,8 +1,10 @@
 import React from 'react'
 import {render, screen, within} from "@testing-library/react"
 import PokemonTable from '../PokemonTable'
+import axios from 'axios'
 
 describe("Pokemon table", () => {
+  
   it("At the top must display a table header with 1 row and 5 columns",async () => {
     render(<PokemonTable />);
     expect(await screen.findAllByRole('table-header-row')).toHaveLength(1)
@@ -21,29 +23,23 @@ describe("Pokemon table", () => {
   })
 
   describe("must get the info from the API", () => {
-      const Psyduck = {
-        id: 7611,
-        name: 'Psyduck',
-        image: 'https://i.pinimg.com/736x/85/1e/cf/851ecf1b1c06cb071c37fb3c6de2ea4a.jpg',
-        type: 'fire',
-        hp: 100,
-        attack: 50,
-        defense: 30
-      }
+    let firstPoke
+      beforeAll( async ()=>{
+        [firstPoke] = (await axios.get("https://pokemon-pichincha.herokuapp.com/pokemons/?idAuthor=1")).data
+      })
+
     it("must display the info in their corresponding columns", async () => {
       render(<PokemonTable />)
-      // https://pokemon-pichincha.herokuapp.com/pokemons/7611 get Psyduck
       const [Poke] = await screen.findAllByRole('Pokemon')
       const [Nombre,Imagen,Ataque,Defensa] = await within(Poke).findAllByRole('stat')
-      expect(Nombre.textContent).toBe(Psyduck.name)
-      expect(Imagen.textContent).toBe(Psyduck.image)
-      expect(Ataque.textContent).toBe(Psyduck.attack.toString())
-      expect(Defensa.textContent).toBe(Psyduck.defense.toString())
+      expect(Nombre.textContent).toBe(firstPoke.name)
+      expect(await within(Imagen).findByRole("img")).toHaveAttribute('src', firstPoke.image)
+      expect(Ataque.textContent).toBe(firstPoke.attack.toString())
+      expect(Defensa.textContent).toBe(firstPoke.defense.toString())
     })
 
     it("It should display a new pokemon in another row", async () => {
       render(<PokemonTable />)
-      // https://pokemon-pichincha.herokuapp.com/pokemons/7612 get Bulbasaur1
       const [Poke1,Poke2] = await screen.findAllByRole('Pokemon')
       const [firstsName] = await within(Poke1).findAllByRole('stat')
       const [secondName] = await within(Poke2).findAllByRole('stat')

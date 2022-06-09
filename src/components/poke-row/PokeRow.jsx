@@ -5,7 +5,7 @@ const PokeRow = ({ id, name, img, atk, def }) => {
     <>
       <tr role={"Pokemon"}>
         <td role={"stat"}>{name}</td>
-        <td role={"stat"}>{img}</td>
+        <td role={"stat"}><img src={img} alt={`a picture of ${name}`}></img></td>
         <td role={"stat"}>{atk}</td>
         <td role={"stat"}>{def}</td>
         <td role={"actions"}>
