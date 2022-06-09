@@ -1,9 +1,10 @@
 import React from 'react'
-import {render, screen} from "@testing-library/react"
+import {fireEvent, render, screen} from "@testing-library/react"
 import PrimaryButton from '../PrimaryButton'
 const testButton = {
   icon : 'icon.com',
-  text : 'Button'
+  text : 'Button',
+  onClickSpy : jest.fn()
 }
 
 describe("Primary Button", () => {
@@ -25,4 +26,9 @@ describe("Primary Button", () => {
     expect(text.textContent).toBe('Button')
   })
 
+  it("Button must call a onclick function when make click to the button", async () => {
+    const { getByRole } = render(<PrimaryButton icon={testButton.icon} text={testButton.text} cb={testButton.onClickSpy}  />);
+    fireEvent.click(getByRole('button'))
+    expect(testButton.onClickSpy).toHaveBeenCalled();
+  })
 })
