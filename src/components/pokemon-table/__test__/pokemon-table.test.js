@@ -1,15 +1,15 @@
 import React from 'react'
-import {render, screen, within} from "@testing-library/react"
+import {findByRole, render, screen, within} from "@testing-library/react"
 import PokemonTable from '../PokemonTable'
 
 describe("Pokemon table", () => {
-  xit("At the beginning must display a table with 1 row and 5 columns",async () => {
+  it("At the top must display a table header with 1 row and 5 columns",async () => {
     render(<PokemonTable />);
     expect(await screen.findAllByRole('table-header-row')).toHaveLength(1)
     expect(await screen.findAllByRole('table-header-column')).toHaveLength(5)
   })
 
-  xit("must display the headers of the table", async () => {
+  it("must display the headers of the table", async () => {
     render(<PokemonTable />)
     const [Nombre,Imagen,Ataque,Defensa,Acciones] =
       await screen.findAllByRole('table-header-column')
@@ -45,17 +45,21 @@ describe("Pokemon table", () => {
       render(<PokemonTable />)
       // https://pokemon-pichincha.herokuapp.com/pokemons/7611 get Psyduck
       const [Poke1,Poke2] = await screen.findAllByRole('Pokemon')
-      const [Nombre1] = await within(Poke1).findAllByRole('stat')
-      const [Nombre2] = await within(Poke2).findAllByRole('stat')
-      expect(Nombre1.textContent).not.toBe(Nombre2.textContent)
+      const [firstsName] = await within(Poke1).findAllByRole('stat')
+      const [secondName] = await within(Poke2).findAllByRole('stat')
+      expect(firstsName.textContent).not.toBe(secondName.textContent)
     })
 
-    xdescribe("Each pokemon must have two buttons to edit and remove with a unique id", () => {
-      it("Each pokemon must have two buttons", () => {
+    describe("Each pokemon must have two buttons to edit and remove with a unique id", () => {
+      it("Each pokemon must have two icon-buttons", async () => {
         render(<PokemonTable />)
+        const [Poke1] = await screen.findAllByRole('Pokemon')
+        const [Edit,Remove] = await within(Poke1).findAllByRole('button')
+        expect(await within(Edit).findByAltText('edit'))
+        expect(await within(Remove).findByAltText('remove'))
 
       })
-      it("The id must be unique", () => {
+      xit("The id must be unique", () => {
         render(<PokemonTable />)
 
       })
