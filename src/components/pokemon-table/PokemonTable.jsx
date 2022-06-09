@@ -1,4 +1,7 @@
 import React from 'react'
+// import {default as edit} from '../../assets/edit.png'
+// import {default as remove} from '../../assets/remove.png'
+
 const PokemonTable = () => {
   const Pokes = [{
     id: 7611,
@@ -35,8 +38,8 @@ const PokemonTable = () => {
           <td role={'stat'}>{Pokes[0].attack}</td>
           <td role={'stat'}>{Pokes[0].defense}</td>
           <td role={'actions'}>
-            <button></button>
-            <button></button>
+            <button><img src={'../../assets/edit.png'} alt="edit" /></button>
+            <button><img src={'../../assets/remove.png'} alt="remove" /></button>
           </td>
         </tr>
         <tr role={'Pokemon'}>
@@ -45,8 +48,8 @@ const PokemonTable = () => {
           <td role={'stat'}>{Pokes[1].attack}</td>
           <td role={'stat'}>{Pokes[1].defense}</td>
           <td role={'actions'}>
-            <button></button>
-            <button></button>
+            <button><img src={'../../assets/edit.png'} alt="edit" /></button>
+            <button><img src={'../../assets/remove.png'} alt="remove" /></button>
           </td>
         </tr>
       </tbody>
