@@ -38,8 +38,8 @@ const PokemonTable = () => {
           <td role={'stat'}>{Pokes[0].attack}</td>
           <td role={'stat'}>{Pokes[0].defense}</td>
           <td role={'actions'}>
-            <button><img src={'../../assets/edit.png'} alt="edit" /></button>
-            <button><img src={'../../assets/remove.png'} alt="remove" /></button>
+            <button data-testid={Pokes[0].id}><img src={'../../assets/edit.png'} alt="edit" /></button>
+            <button data-testid={Pokes[0].id}><img src={'../../assets/remove.png'} alt="remove" /></button>
           </td>
         </tr>
         <tr role={'Pokemon'}>
@@ -48,8 +48,8 @@ const PokemonTable = () => {
           <td role={'stat'}>{Pokes[1].attack}</td>
           <td role={'stat'}>{Pokes[1].defense}</td>
           <td role={'actions'}>
-            <button><img src={'../../assets/edit.png'} alt="edit" /></button>
-            <button><img src={'../../assets/remove.png'} alt="remove" /></button>
+            <button data-testid={Pokes[1].id}><img src={'../../assets/edit.png'} alt="edit" /></button>
+            <button data-testid={Pokes[1].id}><img src={'../../assets/remove.png'} alt="remove" /></button>
           </td>
         </tr>
       </tbody>
