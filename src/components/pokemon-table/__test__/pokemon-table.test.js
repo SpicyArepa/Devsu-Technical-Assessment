@@ -9,9 +9,13 @@ describe("Pokemon table", () => {
     expect(await screen.findAllByRole('table-header-column')).toHaveLength(5)
   })
 
-  xit("must display the headers of the table", () => {
+  it("must display the headers of the table", async () => {
     render(<PokemonTable />)
-
+    expect(await screen.findByRole('table-header-column',{name : 'Nombre'}))
+    expect(await screen.findByRole('table-header-column',{name : 'Imagen'}))
+    expect(await screen.findByRole('table-header-column',{name : 'Ataque'}))
+    expect(await screen.findByRole('table-header-column',{name : 'Defensa'}))
+    expect(await screen.findByRole('table-header-column',{name : 'Acciones'}))
   })
 
   xit("must get the info from the API", () => {
