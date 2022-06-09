@@ -53,11 +53,13 @@ describe("Pokemon table", () => {
     describe("Each pokemon must have two buttons to edit and remove with a unique id", () => {
       it("Each pokemon must have two icon-buttons", async () => {
         render(<PokemonTable />)
-        const [Poke1] = await screen.findAllByRole('Pokemon')
-        const [Edit,Remove] = await within(Poke1).findAllByRole('button')
-        expect(await within(Edit).findByAltText('edit'))
-        expect(await within(Remove).findByAltText('remove'))
-
+        const [Poke1,Poke2] = await screen.findAllByRole('Pokemon')
+        const [Edit1,Remove1] = await within(Poke1).findAllByRole('button')
+        expect(await within(Edit1).findByAltText('edit'))
+        expect(await within(Remove1).findByAltText('remove'))
+        const [Edit2,Remove2] = await within(Poke2).findAllByRole('button')
+        expect(await within(Edit2).findByAltText('edit'))
+        expect(await within(Remove2).findByAltText('remove'))
       })
       xit("The id must be unique", () => {
         render(<PokemonTable />)
