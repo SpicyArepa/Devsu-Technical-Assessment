@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import PokeRow from "../poke-row/PokeRow";
 
 const PokemonTable = () => {
   const [pokemons, setPokemons] = useState([]);
@@ -31,22 +32,14 @@ const PokemonTable = () => {
       <tbody>
         {pokemons.length > 1
           ? pokemons.map((pokemon,index) => {
-              return (
-                <tr key={index} role={"Pokemon"}>
-                  <td role={"stat"}>{pokemon.name}</td>
-                  <td role={"stat"}>{pokemon.image}</td>
-                  <td role={"stat"}>{pokemon.attack}</td>
-                  <td role={"stat"}>{pokemon.defense}</td>
-                  <td role={"actions"}>
-                    <button data-testid={pokemon.id}>
-                      <img src={"../../assets/edit.png"} alt="edit" />
-                    </button>
-                    <button data-testid={pokemon.id}>
-                      <img src={"../../assets/remove.png"} alt="remove" />
-                    </button>
-                  </td>
-                </tr>
-              );
+              return <PokeRow 
+                  id={pokemon.id}
+                  name={pokemon.name}
+                  img={pokemon.image}
+                  atk={pokemon.attack}
+                  def={pokemon.defense}
+                  key={index}
+                />
             })
           : null}
       </tbody>
