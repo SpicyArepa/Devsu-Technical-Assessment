@@ -24,8 +24,5 @@
     "jest-environment-jsdom": "^28.1.1",
     "react-test-renderer": "^18.1.0",
     "vite": "^2.9.9"
-  },
-  "jest": {
-    "testEnvironment": "jsdom"
   }
 }
