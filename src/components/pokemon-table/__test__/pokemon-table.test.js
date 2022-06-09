@@ -32,7 +32,7 @@ describe("Pokemon table", () => {
       }
     it("must display the info in their corresponding columns", async () => {
       render(<PokemonTable />)
-      // https://pokemon-pichincha.herokuapp.com/pokemons/7612 get Bulbasaur1
+      // https://pokemon-pichincha.herokuapp.com/pokemons/7611 get Psyduck
       const [Poke] = await screen.findAllByRole('Pokemon')
       const [Nombre,Imagen,Ataque,Defensa] = await within(Poke).findAllByRole('stat')
       expect(Nombre.textContent).toBe(Psyduck.name)
@@ -43,7 +43,7 @@ describe("Pokemon table", () => {
 
     it("It should display a new pokemon in another row", async () => {
       render(<PokemonTable />)
-      // https://pokemon-pichincha.herokuapp.com/pokemons/7611 get Psyduck
+      // https://pokemon-pichincha.herokuapp.com/pokemons/7612 get Bulbasaur1
       const [Poke1,Poke2] = await screen.findAllByRole('Pokemon')
       const [firstsName] = await within(Poke1).findAllByRole('stat')
       const [secondName] = await within(Poke2).findAllByRole('stat')
