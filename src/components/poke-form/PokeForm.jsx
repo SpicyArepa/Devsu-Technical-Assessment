@@ -14,9 +14,11 @@ const PokeForm = ( { cb } ) => {
   const [input,setInput] = useState(initialInput)
   
   const handleChange = function (e) {
+    let value
+    isNaN(e.target.value) ? value = e.target.value : value = Number(e.target.value)
     setInput({
       ...input,
-      [e.target.id]: e.target.value,
+      [e.target.id]: value,
     });
   };
 
@@ -27,7 +29,7 @@ const PokeForm = ( { cb } ) => {
   },[input])
 
   return (
-    <form onSubmit={cb} onChange={handleChange}>
+    <form onSubmit={(e) => cb(e,input)} onChange={handleChange}>
     <h3>Nuevo Pokemon</h3>
     <div>
       <label htmlFor="name">Nombre:</label>
