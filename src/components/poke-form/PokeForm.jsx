@@ -21,7 +21,9 @@ const PokeForm = ( { cb } ) => {
   };
 
   useEffect(()=> {
+
     setError(validate(input))
+    
   },[input])
 
   return (

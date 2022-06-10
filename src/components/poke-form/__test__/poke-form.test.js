@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import PokeForm from "../PokeForm";
 
 describe("Pokemon Form", () => {
@@ -39,12 +39,37 @@ describe("Pokemon Form", () => {
     expect(cancelar.textContent).toBe('Cancelar')
   })
 
-  it('Buttons Guardar initial disabled', async () =>{
+  it('Button Guardar initial disabled', async () =>{
     const { getByRole } = render(<PokeForm />);
     const save = getByRole('save-button')
     expect(await within(save).findByRole('button')).toBeDisabled();
   })
 
+  it('Button Guardar enable when the form meets the requirement', async () =>{
+    const { getByRole } = render(<PokeForm />);
+    const save = getByRole('save-button')
+    fireEvent.change(getByRole('name'),{target : {value : 'Pikachu'}})
+    fireEvent.change(getByRole('image'),{target : {value : 'https://areajugones.sport.es/wp-content/uploads/2021/02/pikachu-pokemon.jpg'}})
+    fireEvent.change(getByRole('attack'),{target : {value : 10}})
+    fireEvent.change(getByRole('defense'),{target : {value : 15}})
+    expect(await within(save).findByRole('button')).not.toBeDisabled();
+  })
+
+  it('Button Guardar must be disable when a input has an error', async () =>{
+    const { getByRole } = render(<PokeForm />);
+    const save = getByRole('save-button')
+    fireEvent.change(getByRole('name'),{target : {value : 'This a string with a more 15 characters'}})
+    fireEvent.change(getByRole('image'),{target : {value : 'http://ThisIsaInsecureUrl.image'}})
+    expect(await within(save).findByRole('button')).toBeDisabled();
+    fireEvent.change(getByRole('name'),{target : {value : 'Pikachu'}})
+    expect(await within(save).findByRole('button')).toBeDisabled();
+    fireEvent.change(getByRole('image'),{target : {value : 'https://areajugones.sport.es/wp-content/uploads/2021/02/pikachu-pokemon.jpg'}})
+    expect(await within(save).findByRole('button')).toBeDisabled();
+    fireEvent.change(getByRole('attack'),{target : {value : 10}})
+    expect(await within(save).findByRole('button')).toBeDisabled();
+    fireEvent.change(getByRole('defense'),{target : {value : 15}})
+    expect(await within(save).findByRole('button')).not.toBeDisabled();
+  })
 
 
 });
