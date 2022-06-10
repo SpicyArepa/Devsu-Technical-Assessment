@@ -1,4 +1,6 @@
 import React from "react";
+import edit from '../../assets/edit.png'
+import remove from '../../assets/remove.png'
 
 const PokeRow = ({ id, name, img, atk, def }) => {
   return (
@@ -10,10 +12,10 @@ const PokeRow = ({ id, name, img, atk, def }) => {
         <td role={"stat"}>{def}</td>
         <td role={"actions"}>
           <button data-testid={id}>
-            <img src={"../../assets/edit.png"} alt="edit" />
+            <img src={edit} alt="edit" width={25}/>
           </button>
           <button data-testid={id}>
-            <img src={"../../assets/remove.png"} alt="remove" />
+            <img src={remove} alt="remove" width={25}/>
           </button>
         </td>
       </tr>
