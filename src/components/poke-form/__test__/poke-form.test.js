@@ -30,12 +30,19 @@ describe("Pokemon Row", () => {
   })
 
   it('Buttons have the text Guardar and Cancelar', async () =>{
-    const {getAllByRole} = render(<PokeForm />)
-    const [button1,button2] = getAllByRole('button')
-    const guardar = await within(button1).findByRole('button-text')
-    const cancelar = await within(button2).findByRole('button-text')
+    const {getByRole} = render(<PokeForm />)
+    const save = getByRole('save-button')
+    const cancel = getByRole('cancel-button')
+    const guardar = await within(save).findByRole('button-text')
+    const cancelar = await within(cancel).findByRole('button-text')
     expect(guardar.textContent).toBe('Guardar')
     expect(cancelar.textContent).toBe('Cancelar')
+  })
+
+  it('Buttons Guardar initial disabled', async () =>{
+    const { getByRole } = render(<PokeForm />);
+    const save = getByRole('save-button')
+    expect(await within(save).findByRole('button')).toBeDisabled();
   })
 
 });
