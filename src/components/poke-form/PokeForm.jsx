@@ -1,4 +1,5 @@
 import React from "react";
+import PrimaryButton from "../primary-button/PrimaryButton";
 
 const PokeRow = ({ }) => {
   return (
@@ -23,6 +24,9 @@ const PokeRow = ({ }) => {
       <label htmlFor="defense">Defensa:</label>
       <input type="range" id="defense" role={'defense'}/>
     </div>
+
+    <PrimaryButton text={'Guardar'}/>
+    <PrimaryButton text={'Cancelar'}/>
     </form>
   );
 };
