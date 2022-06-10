@@ -88,5 +88,22 @@ describe("Pokemon Form", () => {
     expect(testfn).toHaveBeenCalled();
   })
 
-
+  it('When click on Guardar call the cb with the input in the first parameter and event in the second', async () =>{
+    const testfn = jest.fn( (e,input) => e.preventDefault())
+    const testInput = {
+      name : 'Pikachu',
+      image : 'https://areajugones.sport.es/wp-content/uploads/2021/02/pikachu-pokemon.jpg',
+      attack : 10,
+      defense : 15
+    }
+    const {getByRole} = render(<PokeForm cb={testfn}/>)
+    const save = getByRole('save-button')
+    const button = await within(save).findByRole('button')
+    fireEvent.change(getByRole('name'),{target : {value : testInput.name}})
+    fireEvent.change(getByRole('image'),{target : {value : testInput.image}})
+    fireEvent.change(getByRole('attack'),{target : {value : testInput.attack}})
+    fireEvent.change(getByRole('defense'),{target : {value : testInput.defense}})
+    fireEvent.click(button)
+    expect(testfn.mock.calls[0][1]).toEqual(testInput);
+  })
 });
