@@ -25,8 +25,13 @@ const PokeRow = ({ }) => {
       <input type="range" id="defense" role={'defense'}/>
     </div>
 
-    <PrimaryButton text={'Guardar'}/>
-    <PrimaryButton text={'Cancelar'}/>
+    <div role={'save-button'}>
+      <PrimaryButton text={'Guardar'} disable={true}/>
+    </div>
+
+    <div role={'cancel-button'}>
+      <PrimaryButton text={'Cancelar'}/>
+    </div>
     </form>
   );
 };
