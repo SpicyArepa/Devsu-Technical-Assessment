@@ -24,4 +24,18 @@ describe("Pokemon Row", () => {
     expect(getByRole('defense')).toHaveAttribute('type','range')
   })
   
+  it('must have 2 buttons', () =>{
+    const {getAllByRole} = render(<PokeForm />)
+    expect(getAllByRole('button')).toHaveLength(2)
+  })
+
+  it('Buttons have the text Guardar and Cancelar', async () =>{
+    const {getAllByRole} = render(<PokeForm />)
+    const [button1,button2] = getAllByRole('button')
+    const guardar = await within(button1).findByRole('button-text')
+    const cancelar = await within(button2).findByRole('button-text')
+    expect(guardar.textContent).toBe('Guardar')
+    expect(cancelar.textContent).toBe('Cancelar')
+  })
+
 });
