@@ -1,0 +1,22 @@
+.image {
+    text-align: center;
+}
+
+.buttons {
+    padding-top: 5px;
+    display: flex;
+    text-align: center;
+    border: none;
+    justify-content: space-evenly;
+    align-items: center;
+    height: auto;
+}
+
+.buttons button {
+    background-color: white;
+    border: none;
+}
+
+.buttons button img {
+    height: 20px;
+}
