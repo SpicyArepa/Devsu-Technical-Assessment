@@ -13,6 +13,7 @@ const initialState = {
     pokemon : {},
     status: 'loading',
     error: '',
+    form: false
 }
 
 const pokemonSlice = createSlice({
@@ -22,10 +23,17 @@ const pokemonSlice = createSlice({
         cleanPokemon: (state) => {
             state.pokemon = {}
         },
+        openForm : (state) => {
+            state.form = true
+        },
+        closeForm : (state) => {
+            state.form = false
+            state.pokemon = {}
+        }
     },
     extraReducers: { ...extraGetPokemons, ...extraGetPokemonById },
 })
 
 export { getPokemons, getPokemonById }
-export const { cleanPokemon } = pokemonSlice.actions
+export const { cleanPokemon, openForm, closeForm } = pokemonSlice.actions
 export default pokemonSlice.reducer

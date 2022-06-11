@@ -20,6 +20,7 @@ export const extraGetPokemonById = {
     [getPokemonById.fulfilled]: (state, action) => {
         state.status = 'success'
         state.pokemon = action.payload.data
+        state.form = true
     },
     [getPokemonById.rejected]: (state) => {
         state.status = 'failed'

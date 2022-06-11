@@ -3,10 +3,19 @@ import PrimaryButton from "../primary-button/PrimaryButton";
 import {validate, compareData }from "./validate";
 import save from '../../assets/save.png'
 import cancel from '../../assets/cancel.png'
+import { useDispatch } from "react-redux";
+import { closeForm } from "../../redux/features/pokemon/pokemonSlice";
 
-const PokeForm = ( { cb, closeFunction, pokemonData } ) => {
+const PokeForm = ( { cb, pokemonData } ) => {
+  const dispatch = useDispatch()
+
+  const close = (e) => {
+    e.preventDefault()
+    dispatch(closeForm())
+  }
 
   const [error,setError] = useState({ error : 'empty form'})
+
   const initialInput = {
     name : pokemonData ? pokemonData.name : '',
     image : pokemonData ? pokemonData.image : '',
@@ -15,7 +24,6 @@ const PokeForm = ( { cb, closeFunction, pokemonData } ) => {
   }
 
   const [input,setInput] = useState(initialInput)
-  
   const handleChange = function (e) {
     let value = e.target.value
     e.target.id === 'attack' ? value = Number(e.target.value) : null
@@ -25,15 +33,16 @@ const PokeForm = ( { cb, closeFunction, pokemonData } ) => {
       [e.target.id]: value,
     });
   };
+  let saveDisable = Object.values(error).length >= 1 || (pokemonData ? compareData(input,pokemonData) : false)
 
   useEffect(()=> {
 
     setError(validate(input))
     
   },[input])
-  let saveDisable = Object.values(error).length >= 1 || (pokemonData ? compareData(input,pokemonData) : false)
+  
   return (
-    <form onSubmit={(e) => cb(e,input)}>
+    <form onSubmit={(e) => cb(e,input)} role={'form'}>
     <h3> {pokemonData ? 'Editar Pokemon' : 'Nuevo Pokemon'}</h3>
     <div>
       <label htmlFor="name">Nombre:</label>
@@ -60,7 +69,7 @@ const PokeForm = ( { cb, closeFunction, pokemonData } ) => {
     </div>
 
     <div role={'cancel-button'}>
-      <PrimaryButton icon={cancel} text={'Cancelar'} cb={closeFunction}/>
+      <PrimaryButton icon={cancel} text={'Cancelar'} cb={close}/>
     </div>
     </form>
   );

@@ -2,16 +2,21 @@ import React, { useState } from 'react'
 import PokeForm from '../../components/poke-form/PokeForm'
 import PokemonTable from "../../components/pokemon-table/PokemonTable"
 import PrimaryButton from '../../components/primary-button/PrimaryButton'
-import add from '../../assets/add.png'
-import closeForm from '../actions/closeForm'
+import addIcon from '../../assets/add.png'
+import { useDispatch, useSelector } from 'react-redux'
+import { openForm } from '../../redux/features/pokemon/pokemonSlice'
 
 const MainPage = () => {
-  const [form,setForm] = useState(false)
+  const dispatch = useDispatch()
+  const {form} = useSelector(state => state.pokemon)
+  const add = () => {
+    dispatch(openForm())
+  }
   return (<>
     <h3>Listado de Pokemon</h3>
-    <PrimaryButton cb={() => setForm(true)} text={'Nuevo'} icon={add}/>
+    <PrimaryButton text={'Nuevo'} icon={addIcon} cb={add}/>
     <PokemonTable/>
-    { form ? <PokeForm closeFunction={(e) => closeForm(e,setForm)} /> : null }
+    { form ? <PokeForm /> : null }
   </>
   )
 }
