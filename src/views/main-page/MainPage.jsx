@@ -5,6 +5,7 @@ const MainPage = () => {
   
   return (<>
     <h3>Listado de Pokemon</h3>
+    <PokemonTable/>
     <PokeForm />
   </>
   )
