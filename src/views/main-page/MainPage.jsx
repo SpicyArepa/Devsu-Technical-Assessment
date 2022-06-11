@@ -6,6 +6,7 @@ import addIcon from '../../assets/add.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { cleanPokemon, openForm,getPokemons } from '../../redux/features/pokemon/pokemonSlice'
 import PokeSearch from '../../components/poke-search/PokeSearch'
+import styles from './main-page.module.css'
 
 const MainPage = () => {
   const dispatch = useDispatch()
@@ -14,15 +15,15 @@ const MainPage = () => {
     pokemon ? dispatch(cleanPokemon()) : null
     !form ? dispatch(openForm()) : null
   }
-  return (<>
+  return (<div className={styles.container}>
     <h3>Listado de Pokemon</h3>
-    <div>
+    <div className={styles.topBar}>
     <PokeSearch/>
     <PrimaryButton text={'Nuevo'} icon={addIcon} cb={add}/>
     </div>
     <PokemonTable/>
     { form ? <PokeForm /> : null }
-  </>
+  </div>
   )
 }
 
