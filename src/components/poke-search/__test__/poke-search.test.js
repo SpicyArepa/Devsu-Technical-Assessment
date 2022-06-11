@@ -24,5 +24,14 @@ describe("Pokemon Form", () => {
     expect(await findByPlaceholderText(/Buscar/i))
   })
 
+  it("on enter must call a action to find pokemons when have a string", async () => {
+    const {getByRole} = render(<Provider store={store}>
+      <PokeSearch />
+    </Provider>)
+    fireEvent.change(getByRole('input-search'),{target : {value : 'Pikachu'}})
+    act ( () => {fireEvent.keyPress(getByRole('input-search'), { key: 'Enter', charCode: 13 });})
+    await act(() => sleep(1000));
+    expect(store.getState().pokemon.search).toEqual("success");
+  })
 
 });
