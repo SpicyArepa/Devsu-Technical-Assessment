@@ -6,9 +6,13 @@ import { getPokemons } from "../../redux/features/pokemon/pokemonSlice";
 
 const PokemonTable = () => {
 
-  const {pokemons} = useSelector(state => state.pokemon)
+  const {pokemons,deleted,created,edited} = useSelector(state => state.pokemon)
   const dispatch = useDispatch()
-
+  useEffect(()=>{
+    deleted === 'success' ? dispatch(getPokemons()) : null
+    created === 'success' ? dispatch(getPokemons()) : null
+    edited === 'success' ? dispatch(getPokemons()) : null
+  },[deleted,created,edited])
   useEffect(() => {
     dispatch(getPokemons())
   }, []);

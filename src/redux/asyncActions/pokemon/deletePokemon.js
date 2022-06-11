@@ -6,7 +6,7 @@ export const deletePokemon = createAsyncThunk(
     'pokemon/deletePokemon',
     async (id) => {
         try{
-            return await axios.get(API_ROUTE+id)
+            return await axios.delete(API_ROUTE+id)
           } catch (err) {
             console.error(err)
           } 

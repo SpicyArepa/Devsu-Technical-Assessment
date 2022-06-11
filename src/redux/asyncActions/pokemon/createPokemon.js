@@ -21,6 +21,7 @@ export const extraCreatePokemon = {
     },
     [createPokemon.fulfilled]: (state, action) => {
         state.created = 'success'
+        state.form = false
     },
     [createPokemon.rejected]: (state) => {
         state.created = 'failed'
