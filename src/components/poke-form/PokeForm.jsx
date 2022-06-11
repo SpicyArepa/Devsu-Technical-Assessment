@@ -5,6 +5,7 @@ import save from '../../assets/save.png'
 import cancel from '../../assets/cancel.png'
 import { useDispatch, useSelector } from "react-redux";
 import { closeForm, createPokemon, editPokemon } from "../../redux/features/pokemon/pokemonSlice";
+import styles from './poke-form.module.css'
 
 const PokeForm = ( ) => {
   const dispatch = useDispatch()
@@ -54,34 +55,39 @@ const PokeForm = ( ) => {
   },[input])
 
   return (
-    <form onSubmit={handleSubmit} role={'form'}>
+    <form onSubmit={handleSubmit} role={'form'} className={styles.container}>
     <h3> { !pokemon.name ? 'Nuevo Pokemon' : 'Editar Pokemon'}</h3>
-    <div>
-      <label htmlFor="name">Nombre:</label>
-      <input type="text" id="name" role={'name'} value={input.name} onChange={handleChange} placeholder={'nombre'}/>
-    </div>
 
-    <div>
-      <label htmlFor="image">Imagen:</label>
-      <input type="text" id="image" role={'image'} value={input.image} onChange={handleChange} placeholder={'url'}/>
-    </div>
-    <div>
+    <div  className={styles.inputs}>
+      <div className={`${styles.name} ${error.name ? styles.error : null}`}>
+        <label htmlFor="name">Nombre:</label>
+        <input type="text" id="name" role={'name'} value={input.name} onChange={handleChange} placeholder={'nombre'}/>
+      </div>
 
-      <label htmlFor="attack">Ataque:</label>
-      <input type="range" id="attack" role={'attack'} min="0" max="100" onChange={handleChange} value={input.attack}/>
-    </div>
+      <div className={`${styles.attack} ${error.attack ? styles.error : null}`}>
+        <label htmlFor="attack">Ataque:</label>
+        <input type="range" id="attack" role={'attack'} min="0" max="100" onChange={handleChange} value={input.attack}/>
+      </div>
 
-    <div>
-      <label htmlFor="defense">Defensa:</label>
-      <input type="range" id="defense" role={'defense'} min="0" max="100" onChange={handleChange} value={input.defense}/>
-    </div>
+      <div className={`${styles.image} ${error.image ? styles.error : null}`}>
+        <label htmlFor="image">Imagen:</label>
+        <input type="text" id="image" role={'image'} value={input.image} onChange={handleChange} placeholder={'url'}/>
+      </div>
 
-    <div role={'save-button'}>
-      <PrimaryButton icon={save} text={'Guardar'} disable={saveDisable} type='submit'/>
-    </div>
+      <div className={`${styles.defense} ${error.defense ? styles.error : null}`}>
+        <label htmlFor="defense">Defensa:</label>
+        <input type="range" id="defense" role={'defense'} min="0" max="100" onChange={handleChange} value={input.defense}/>
+      </div>
 
-    <div role={'cancel-button'}>
-      <PrimaryButton icon={cancel} text={'Cancelar'} cb={close}/>
+    </div>
+    <div className={styles.buttons}>
+      <div role={'save-button'}>
+        <PrimaryButton icon={save} text={'Guardar'} disable={saveDisable} type='submit'/>
+      </div>
+
+      <div role={'cancel-button'}>
+        <PrimaryButton icon={cancel} text={'Cancelar'} cb={close}/>
+      </div>
     </div>
     </form>
   );

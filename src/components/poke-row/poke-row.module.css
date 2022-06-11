@@ -15,6 +15,7 @@
 .buttons button {
     background-color: white;
     border: none;
+    cursor: pointer;
 }
 
 .buttons button img {

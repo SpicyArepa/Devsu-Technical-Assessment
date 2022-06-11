@@ -11,6 +11,7 @@
     width: fit-content;
     height: 40px;
     max-width: 110px;
+    cursor: pointer;
 }
 
 .icon{
@@ -20,4 +21,9 @@
 
 .text {
     padding: 10px;
+}
+
+.container:disabled{
+    opacity: 0.3;
+    cursor: default;
 }

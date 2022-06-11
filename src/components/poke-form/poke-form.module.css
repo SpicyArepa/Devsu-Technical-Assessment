@@ -1,0 +1,71 @@
+.container {
+    margin-top: 20px;
+    width: 100%;
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 20px;
+}
+
+.container h3 {
+    width: 100%;
+    text-align: center;
+}
+
+.inputs{
+    display: grid;
+    width: 100%;
+    grid-template:  "name attack"
+                    "image defense";
+    padding-bottom: 15px;
+}
+
+.inputs label{
+    width: 60px;
+}
+
+.inputs input{
+    padding: 7px;
+    border-radius: 5px;
+    border: 2px solid rgba(128, 128, 128, 0.493);
+}
+
+.name{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.attack{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.defense{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons {
+    display: flex;
+    width: 100%;
+    justify-content:center;
+}
+
+.buttons button{
+    margin: 0 20px;
+}
+
+.error input{
+    border-color: red;
+}
