@@ -2,7 +2,7 @@ import React from 'react'
 import {render,fireEvent, within} from '../../../utils/__test-utils__/test-utils'
 import MainPage from '../MainPage'
 
-xdescribe("Main Page mount", () => {
+describe("Main Page mount", () => {
   it("must display the main page title", () => {
     const {getByText} =render(<MainPage />)
     expect(getByText(/Listado de Pokemon/i))

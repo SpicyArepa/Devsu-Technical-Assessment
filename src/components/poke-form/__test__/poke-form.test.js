@@ -1,5 +1,5 @@
 import React from "react";
-import { getPokemonById } from "../../../redux/features/pokemon/pokemonSlice";
+import { getPokemonById, getPokemons } from "../../../redux/features/pokemon/pokemonSlice";
 import { fireEvent, render, within } from '../../../utils/__test-utils__/test-utils';
 import store from "../../../redux/store";
 import PokeForm from "../PokeForm";
@@ -15,7 +15,7 @@ const component = <Provider store={store}>
                     <PokeForm />
                   </Provider>
 
-xdescribe("Pokemon Form", () => {
+describe("Pokemon Form", () => {
 
   it("must display the form title", () => {
     const {getByText} = render(component)
@@ -104,10 +104,11 @@ xdescribe("Pokemon Form", () => {
   })
 
   describe('When pass a pokemon data, the title change, put input values from data and enable click', () =>{
-    let pokemon
+    let pokemon, pokemons
     beforeAll(async ()=>{
-      store.dispatch(getPokemonById(7729))
-      await act (()=>sleep(1000))
+      await store.dispatch(getPokemons())
+      pokemons = store.getState().pokemon.pokemons
+      await store.dispatch(getPokemonById(pokemons[0].id))
       pokemon = store.getState().pokemon.pokemon
     })
 

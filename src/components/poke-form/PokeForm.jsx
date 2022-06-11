@@ -42,10 +42,8 @@ const PokeForm = ( ) => {
   };
 
   let handleSubmit = (e) => {
-    console.log('hola')
     e.preventDefault()
     const id = pokemon.id
-    console.log(id)
     !id ? dispatch(createPokemon(input)) : dispatch(editPokemon({id,pokemonData:input}))
   }
 
@@ -53,7 +51,6 @@ const PokeForm = ( ) => {
   useEffect(()=> {
 
     setError(validate(input))
-    console.log(pokemon,input)
   },[input])
 
   return (
