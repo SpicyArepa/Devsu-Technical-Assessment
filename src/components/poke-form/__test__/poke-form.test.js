@@ -5,7 +5,7 @@ import PokeForm from "../PokeForm";
 describe("Pokemon Form", () => {
   it("must display the main page title", () => {
     const {getByText} = render(<PokeForm />)
-    expect(getByText(/Pokemon/i))
+    expect(getByText(/Nuevo Pokemon/i))
   })
 
   it("must have 4 labels", () => {
@@ -105,5 +105,47 @@ describe("Pokemon Form", () => {
     fireEvent.change(getByRole('defense'),{target : {value : testInput.defense}})
     fireEvent.click(button)
     expect(testfn.mock.calls[0][1]).toEqual(testInput);
+  })
+
+  describe('When pass a pokemon data, the title change, put input values from data and enable click', () =>{
+    const testInput = {
+      name : 'Pikachu',
+      image : 'https://areajugones.sport.es/wp-content/uploads/2021/02/pikachu-pokemon.jpg',
+      attack : 10,
+      defense : 15
+    }
+
+    it("Title must change", () => {
+      const {getByText} = render(<PokeForm pokemonData={testInput}/>)
+      expect(getByText(/Editar Pokemon/i))
+    })
+
+    it("Put data in inputs value", () => {
+      const {getByRole} = render(<PokeForm pokemonData={testInput}/>)
+      expect(getByRole('name').getAttribute('value')).toBe(testInput.name)
+      expect(getByRole('image').getAttribute('value')).toBe(testInput.image)
+      expect(Number(getByRole('attack').getAttribute('value'))).toBe(testInput.attack)
+      expect(Number(getByRole('defense').getAttribute('value'))).toBe(testInput.defense)
+    })
+
+    it("Can't Save with same data", async () => {
+      const testfn = jest.fn( (e,input) => e.preventDefault())
+      const {getByRole} = render(<PokeForm cb={testfn} pokemonData={testInput}/>)
+      const save = getByRole('save-button')
+      const button = await within(save).findByRole('button')
+      fireEvent.click(button)
+      expect(testfn).not.toHaveBeenCalled();
+    })
+
+    it("Can Save when the inputs change", async () => {
+      const testfn = jest.fn( (e,input) => e.preventDefault())
+      const {getByRole} = render(<PokeForm cb={testfn} pokemonData={testInput}/>)
+      const save = getByRole('save-button')
+      const button = await within(save).findByRole('button')
+      fireEvent.change(getByRole('attack'),{target : {value : (testInput.attack + 10)}})
+      fireEvent.click(button)
+      expect(testfn.mock.calls[0][1]).not.toEqual(testInput);
+    })
+
   })
 });
