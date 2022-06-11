@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import PrimaryButton from "../primary-button/PrimaryButton";
 import {validate, compareData }from "./validate";
+import save from '../../assets/save.png'
+import cancel from '../../assets/cancel.png'
 
 const PokeForm = ( { cb, closeFunction, pokemonData } ) => {
 
@@ -34,12 +36,12 @@ const PokeForm = ( { cb, closeFunction, pokemonData } ) => {
     <h3> {pokemonData ? 'Editar Pokemon' : 'Nuevo Pokemon'}</h3>
     <div>
       <label htmlFor="name">Nombre:</label>
-      <input type="text" id="name" role={'name'} value={input.name} onChange={handleChange}/>
+      <input type="text" id="name" role={'name'} value={input.name} onChange={handleChange} placeholder={'nombre'}/>
     </div>
 
     <div>
       <label htmlFor="image">Imagen:</label>
-      <input type="text" id="image" role={'image'} value={input.image} onChange={handleChange}/>
+      <input type="text" id="image" role={'image'} value={input.image} onChange={handleChange} placeholder={'url'}/>
     </div>
     <div>
 
@@ -53,11 +55,11 @@ const PokeForm = ( { cb, closeFunction, pokemonData } ) => {
     </div>
 
     <div role={'save-button'}>
-      <PrimaryButton text={'Guardar'} disable={saveDisable} type='submit'/>
+      <PrimaryButton icon={save} text={'Guardar'} disable={saveDisable} type='submit'/>
     </div>
 
     <div role={'cancel-button'}>
-      <PrimaryButton text={'Cancelar'} cb={closeFunction}/>
+      <PrimaryButton icon={cancel} text={'Cancelar'} cb={closeFunction}/>
     </div>
     </form>
   );
