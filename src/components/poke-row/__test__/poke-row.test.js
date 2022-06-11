@@ -2,7 +2,8 @@ import React from "react";
 import { fireEvent, render, within } from '../../../utils/__test-utils__/test-utils';
 import PokeRow from "../PokeRow";
 import store from "../../../redux/store";
-import { getPokemons } from "../../../redux/asyncActions/pokemon/getPokemons";
+import { getPokemons, getPokemonById } from "../../../redux/features/pokemon/pokemonSlice";
+import {act} from 'react-test-renderer'
 
 
 describe("Pokemon Row", () => {
@@ -39,6 +40,8 @@ describe("Pokemon Row", () => {
     const pokemon = await findByRole('Pokemon')
     const edit = await within(pokemon).findByRole('edit-button');
     fireEvent.click(edit)
-    expect(store.getState().pokemon.pokemon).toEqual(Pokemons[0]);
+    setTimeout(() => {
+      expect(store.getState().pokemon.pokemon).toEqual(Pokemons[0]);
+    },500)
   });
 });
