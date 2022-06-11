@@ -2,7 +2,7 @@ export const validate = (input) => {
   let error = {};
   if (!input.name) {
     error.name = "";
-  } else if (!/^.{8,15}$/.test(input.name)) {
+  } else if (!/^.{2,15}$/.test(input.name)) {
     error.name = "Too long or too short";
   }
 

@@ -3,37 +3,59 @@ import PrimaryButton from "../primary-button/PrimaryButton";
 import {validate, compareData }from "./validate";
 import save from '../../assets/save.png'
 import cancel from '../../assets/cancel.png'
+import { useDispatch, useSelector } from "react-redux";
+import { closeForm, createPokemon, editPokemon } from "../../redux/features/pokemon/pokemonSlice";
 
-const PokeForm = ( { cb, closeFunction, pokemonData } ) => {
+const PokeForm = ( ) => {
+  const dispatch = useDispatch()
+  const { pokemon } = useSelector(state => state.pokemon)
+  const close = (e) => {
+    e.preventDefault()
+    dispatch(closeForm())
+  }
+
+  useEffect(()=>{
+    setInput(initialInput)
+  },[pokemon])
 
   const [error,setError] = useState({ error : 'empty form'})
+
   const initialInput = {
-    name : pokemonData ? pokemonData.name : '',
-    image : pokemonData ? pokemonData.image : '',
-    attack: pokemonData ? pokemonData.attack : '',
-    defense: pokemonData ? pokemonData.defense : ''
+    name : pokemon.name ? pokemon.name : '',
+    image : pokemon.image ? pokemon.image : '',
+    attack: pokemon.attack ? pokemon.attack : 0,
+    defense: pokemon.defense ? pokemon.defense : 0,
+    idAuthor: 1,
+    hp: 100,
+    type: 'water'
   }
 
   const [input,setInput] = useState(initialInput)
-  
   const handleChange = function (e) {
-    let value
-    isNaN(e.target.value) ? value = e.target.value : value = Number(e.target.value)
+    let value = e.target.value
+    e.target.id === 'attack' ? value = Number(e.target.value) : null
+    e.target.id === 'defense' ? value = Number(e.target.value) : null
     setInput({
       ...input,
       [e.target.id]: value,
     });
   };
 
+  let handleSubmit = (e) => {
+    e.preventDefault()
+    const id = pokemon.id
+    !id ? dispatch(createPokemon(input)) : dispatch(editPokemon({id,pokemonData:input}))
+  }
+
+  let saveDisable = Object.values(error).length >= 1 || (pokemon.name ? compareData(input,pokemon) : false)
   useEffect(()=> {
 
     setError(validate(input))
-    
   },[input])
-  let saveDisable = Object.values(error).length > 1 || (pokemonData ? compareData(input,pokemonData) : false)
+
   return (
-    <form onSubmit={(e) => cb(e,input)}>
-    <h3> {pokemonData ? 'Editar Pokemon' : 'Nuevo Pokemon'}</h3>
+    <form onSubmit={handleSubmit} role={'form'}>
+    <h3> { !pokemon.name ? 'Nuevo Pokemon' : 'Editar Pokemon'}</h3>
     <div>
       <label htmlFor="name">Nombre:</label>
       <input type="text" id="name" role={'name'} value={input.name} onChange={handleChange} placeholder={'nombre'}/>
@@ -59,10 +81,9 @@ const PokeForm = ( { cb, closeFunction, pokemonData } ) => {
     </div>
 
     <div role={'cancel-button'}>
-      <PrimaryButton icon={cancel} text={'Cancelar'} cb={closeFunction}/>
+      <PrimaryButton icon={cancel} text={'Cancelar'} cb={close}/>
     </div>
     </form>
   );
 };
-
 export default PokeForm;

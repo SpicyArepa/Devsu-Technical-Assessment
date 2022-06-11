@@ -1,5 +1,5 @@
 import React from 'react'
-import {fireEvent, render, screen} from "@testing-library/react"
+import {fireEvent, render, screen} from '../../../utils/__test-utils__/test-utils'
 import PrimaryButton from '../PrimaryButton'
 const testButton = {
   icon : 'icon.com',

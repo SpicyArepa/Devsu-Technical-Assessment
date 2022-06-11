@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PokeRow from "../poke-row/PokeRow";
+import { useSelector, useDispatch } from "react-redux";
+import { getPokemons } from "../../redux/features/pokemon/pokemonSlice";
 
 const PokemonTable = () => {
-  const [pokemons, setPokemons] = useState([]);
 
-  const getPokemons = async () => {
-    try{
-      const apiPokemons = await axios.get("https://pokemon-pichincha.herokuapp.com/pokemons/?idAuthor=1")
-      setPokemons(apiPokemons.data)
-    } catch (err) {
-      console.error(err)
-    } 
-  }
-
+  const {pokemons,deleted,created,edited} = useSelector(state => state.pokemon)
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    deleted === 'success' ? dispatch(getPokemons()) : null
+    created === 'success' ? dispatch(getPokemons()) : null
+    edited === 'success' ? dispatch(getPokemons()) : null
+  },[deleted,created,edited])
   useEffect(() => {
-    getPokemons()
+    dispatch(getPokemons())
   }, []);
-
   return (
     <table>
       <thead>
@@ -33,11 +31,7 @@ const PokemonTable = () => {
         {pokemons.length > 1
           ? pokemons.map((pokemon,index) => {
               return <PokeRow 
-                  id={pokemon.id}
-                  name={pokemon.name}
-                  img={pokemon.image}
-                  atk={pokemon.attack}
-                  def={pokemon.defense}
+                  {...pokemon}
                   key={index}
                 />
             })
