@@ -3,7 +3,7 @@ import {render, screen, within} from '../../../utils/__test-utils__/test-utils'
 import PokemonTable from '../PokemonTable'
 import axios from 'axios'
 
-describe("Pokemon table", () => {
+xdescribe("Pokemon table", () => {
   
   it("At the top must display a table header with 1 row and 5 columns",async () => {
     render(<PokemonTable />);

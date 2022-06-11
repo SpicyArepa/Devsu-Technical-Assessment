@@ -7,7 +7,7 @@ const testButton = {
   onClickSpy : jest.fn()
 }
 
-describe("Primary Button", () => {
+xdescribe("Primary Button", () => {
   it("Button must display a icon",() => {
     render(<PrimaryButton />);
     expect(screen.findByAltText('icon'))

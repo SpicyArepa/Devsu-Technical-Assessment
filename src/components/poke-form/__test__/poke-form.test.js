@@ -1,5 +1,5 @@
 import React from "react";
-import { getPokemonById,getPokemons, createPokemon,editPokemon } from "../../../redux/features/pokemon/pokemonSlice";
+import { getPokemonById } from "../../../redux/features/pokemon/pokemonSlice";
 import { fireEvent, render, within } from '../../../utils/__test-utils__/test-utils';
 import store from "../../../redux/store";
 import PokeForm from "../PokeForm";
@@ -15,7 +15,7 @@ const component = <Provider store={store}>
                     <PokeForm />
                   </Provider>
 
-describe("Pokemon Form", () => {
+xdescribe("Pokemon Form", () => {
 
   it("must display the form title", () => {
     const {getByText} = render(component)
@@ -88,7 +88,7 @@ describe("Pokemon Form", () => {
   })
 
   it('When click on Guardar call the handleSubmit funtion only when enable', async () =>{
-    jest.setTimeout(20000)
+    jest.setTimeout(10000)
     const {getByRole} = render(component)
     const save = getByRole('save-button')
     const button = await within(save).findByRole('button')
@@ -106,15 +106,13 @@ describe("Pokemon Form", () => {
   describe('When pass a pokemon data, the title change, put input values from data and enable click', () =>{
     let pokemon
     beforeAll(async ()=>{
-      store.dispatch(getPokemonById(7949))
-      await act (()=>sleep(2000))
+      store.dispatch(getPokemonById(7729))
+      await act (()=>sleep(1000))
       pokemon = store.getState().pokemon.pokemon
     })
 
     it("Title must change", () => {
-      const {getByText} = render(<Provider store={store}>
-        <PokeForm  />
-      </Provider>)
+      const {getByText} = render(component)
       expect(getByText(/Editar Pokemon/i))
     })
 
@@ -130,20 +128,20 @@ describe("Pokemon Form", () => {
       const {getByRole} = render(component)
       const save = getByRole('save-button')
       const button = await within(save).findByRole('button')
+
       act( () => {fireEvent.click(button)})
-      await act (()=>sleep(1000))
+      
       expect(store.getState().pokemon.edited).toBe('loading')
     })
 
     it("Can Save when the inputs change", async () => {
-      const testfn = jest.fn(editPokemon)
       const {getByRole} = render(component)
       const save = getByRole('save-button')
       const button = await within(save).findByRole('button')
-      fireEvent.change(getByRole('attack'),{target : {value : (pokemon.attack + 10)}})
+      fireEvent.change(getByRole('attack'),{target : {value : Math.trunc((Math.random()*99 + 1))}})
       expect(store.getState().pokemon.edited).toBe('loading')
-      act( () => {fireEvent.click(button)})
-      await act (()=>sleep(1000))
+      act( () => fireEvent.click(button))
+      await act (()=>sleep(2000))
       expect(store.getState().pokemon.edited).toBe('success')
     })
 

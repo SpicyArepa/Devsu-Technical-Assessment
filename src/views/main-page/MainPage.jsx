@@ -8,9 +8,9 @@ import { cleanPokemon, openForm } from '../../redux/features/pokemon/pokemonSlic
 
 const MainPage = () => {
   const dispatch = useDispatch()
-  const {form} = useSelector(state => state.pokemon)
+  const {form,pokemon} = useSelector(state => state.pokemon)
   const add = () => {
-    dispatch(cleanPokemon())
+    pokemon ? dispatch(cleanPokemon()) : null
     !form ? dispatch(openForm()) : null
   }
   return (<>

@@ -41,20 +41,21 @@ const PokeForm = ( ) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  let handleSubmit = (e) => {
+    console.log('hola')
     e.preventDefault()
     const id = pokemon.id
-    !pokemon.name ? dispatch(createPokemon(input)) : dispatch(editPokemon({id,pokemonData:input}))
+    console.log(id)
+    !id ? dispatch(createPokemon(input)) : dispatch(editPokemon({id,pokemonData:input}))
   }
 
-  let saveDisable = Object.values(error).length >= 1 || (pokemon ? compareData(input,pokemon) : false)
-
+  let saveDisable = Object.values(error).length >= 1 || (pokemon.name ? compareData(input,pokemon) : false)
   useEffect(()=> {
 
     setError(validate(input))
-    
+    console.log(pokemon,input)
   },[input])
-  
+
   return (
     <form onSubmit={handleSubmit} role={'form'}>
     <h3> { !pokemon.name ? 'Nuevo Pokemon' : 'Editar Pokemon'}</h3>
