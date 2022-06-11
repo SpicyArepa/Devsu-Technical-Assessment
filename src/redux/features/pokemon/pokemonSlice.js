@@ -3,6 +3,10 @@ import {
     getPokemons,
     extraGetPokemons,
 } from '../../asyncActions/pokemon/getPokemons'
+import {
+    getPokemonById,
+    extraGetPokemonById,
+} from '../../asyncActions/pokemon/getPokemonById'
 
 const initialState = {
     pokemons : [],
@@ -19,9 +23,9 @@ const pokemonSlice = createSlice({
             state.pokemon = {}
         },
     },
-    extraReducers: { ...extraGetPokemons },
+    extraReducers: { ...extraGetPokemons, ...extraGetPokemonById },
 })
 
-export { getPokemons }
+export { getPokemons, getPokemonById }
 export const { cleanPokemon } = pokemonSlice.actions
 export default pokemonSlice.reducer
