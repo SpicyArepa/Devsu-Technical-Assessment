@@ -34,12 +34,12 @@ const PokeForm = ( { cb, closeFunction, pokemonData } ) => {
     <h3> {pokemonData ? 'Editar Pokemon' : 'Nuevo Pokemon'}</h3>
     <div>
       <label htmlFor="name">Nombre:</label>
-      <input type="text" id="name" role={'name'} value={input.name} onChange={handleChange}/>
+      <input type="text" id="name" role={'name'} value={input.name} onChange={handleChange} placeholder={'nombre'}/>
     </div>
 
     <div>
       <label htmlFor="image">Imagen:</label>
-      <input type="text" id="image" role={'image'} value={input.image} onChange={handleChange}/>
+      <input type="text" id="image" role={'image'} value={input.image} onChange={handleChange} placeholder={'url'}/>
     </div>
     <div>
 
