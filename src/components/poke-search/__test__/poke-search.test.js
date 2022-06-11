@@ -20,9 +20,8 @@ describe("Pokemon Form", () => {
   })
 
   it("must display a input with a placeholder", async () => {
-    const {getByRole} = render(<PokeSearch />)
-    const input = getByRole('input-search')
-    expect(await within(input).findByPlaceholderText(/Buscar/i))
+    const {findByPlaceholderText} = render(<PokeSearch />)
+    expect(await findByPlaceholderText(/Buscar/i))
   })
 
 
