@@ -1,0 +1,21 @@
+.container {
+    height: 40px;
+    width: fit-content;
+    border: 1px gray solid;
+    display: flex;
+    align-items: center;
+    border-radius: 3px;
+    background-color: white;
+}
+
+.image {
+    margin-top: 5px;
+    padding: 0 10px;
+    height: 20px;
+}
+
+.search {
+    border: none;
+    font-size: medium;
+    width: 175px;
+}

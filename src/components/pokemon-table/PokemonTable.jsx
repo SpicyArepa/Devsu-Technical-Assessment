@@ -3,7 +3,7 @@ import axios from "axios";
 import PokeRow from "../poke-row/PokeRow";
 import { useSelector, useDispatch } from "react-redux";
 import { getPokemons } from "../../redux/features/pokemon/pokemonSlice";
-
+import styles from './pokemon-table.module.css'
 const PokemonTable = () => {
 
   const {pokemons,deleted,created,edited} = useSelector(state => state.pokemon)
@@ -18,7 +18,7 @@ const PokemonTable = () => {
   }, []);
 
   return (
-    <table>
+    <table className={styles.container}>
       <thead>
         <tr role={"table-header-row"}>
           <th role={"table-header-column"}>Nombre</th>
