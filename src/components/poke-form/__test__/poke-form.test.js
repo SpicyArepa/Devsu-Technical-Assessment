@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from '../../../utils/__test-utils__/test-utils';
 import PokeForm from "../PokeForm";
 
 describe("Pokemon Form", () => {
