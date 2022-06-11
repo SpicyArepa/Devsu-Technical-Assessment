@@ -5,6 +5,7 @@ import PrimaryButton from '../../components/primary-button/PrimaryButton'
 import addIcon from '../../assets/add.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { cleanPokemon, openForm,getPokemons } from '../../redux/features/pokemon/pokemonSlice'
+import PokeSearch from '../../components/poke-search/PokeSearch'
 
 const MainPage = () => {
   const dispatch = useDispatch()
@@ -15,7 +16,10 @@ const MainPage = () => {
   }
   return (<>
     <h3>Listado de Pokemon</h3>
+    <div>
+    <PokeSearch/>
     <PrimaryButton text={'Nuevo'} icon={addIcon} cb={add}/>
+    </div>
     <PokemonTable/>
     { form ? <PokeForm /> : null }
   </>

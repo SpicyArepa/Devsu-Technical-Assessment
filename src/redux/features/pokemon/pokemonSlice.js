@@ -19,6 +19,10 @@ import {
   deletePokemon,
   extraDeletePokemon,
 } from "../../asyncActions/pokemon/deletePokemon";
+import {
+  searchPokemons,
+  extraSearchPokemons,
+} from "../../asyncActions/pokemon/searchPokemons";
 
 const initialState = {
   pokemons: [],
@@ -29,6 +33,7 @@ const initialState = {
   created: "loading",
   edited: "loading",
   deleted: "loading",
+  search: "loading"
 };
 
 const pokemonSlice = createSlice({
@@ -53,6 +58,7 @@ const pokemonSlice = createSlice({
     ...extraCreatePokemon,
     ...extraEditPokemon,
     ...extraDeletePokemon,
+    ...extraSearchPokemons
   },
 });
 
@@ -62,6 +68,7 @@ export {
   createPokemon,
   editPokemon,
   deletePokemon,
+  searchPokemons,
 };
 export const { cleanPokemon, openForm, closeForm } = pokemonSlice.actions;
 export default pokemonSlice.reducer;

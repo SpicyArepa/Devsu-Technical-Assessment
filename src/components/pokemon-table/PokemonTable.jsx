@@ -16,6 +16,7 @@ const PokemonTable = () => {
   useEffect(() => {
     dispatch(getPokemons())
   }, []);
+
   return (
     <table>
       <thead>
@@ -28,7 +29,7 @@ const PokemonTable = () => {
         </tr>
       </thead>
       <tbody>
-        {pokemons.length > 1
+        {pokemons.length > 0
           ? pokemons.map((pokemon,index) => {
               return <PokeRow 
                   {...pokemon}
