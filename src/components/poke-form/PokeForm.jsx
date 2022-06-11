@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import PrimaryButton from "../primary-button/PrimaryButton";
 import {validate, compareData }from "./validate";
+import save from '../../assets/save.png'
+import cancel from '../../assets/cancel.png'
 
 const PokeForm = ( { cb, closeFunction, pokemonData } ) => {
 
@@ -53,11 +55,11 @@ const PokeForm = ( { cb, closeFunction, pokemonData } ) => {
     </div>
 
     <div role={'save-button'}>
-      <PrimaryButton text={'Guardar'} disable={saveDisable} type='submit'/>
+      <PrimaryButton icon={save} text={'Guardar'} disable={saveDisable} type='submit'/>
     </div>
 
     <div role={'cancel-button'}>
-      <PrimaryButton text={'Cancelar'} cb={closeFunction}/>
+      <PrimaryButton icon={cancel} text={'Cancelar'} cb={closeFunction}/>
     </div>
     </form>
   );
