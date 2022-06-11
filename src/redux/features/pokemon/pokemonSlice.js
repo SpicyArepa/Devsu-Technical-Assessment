@@ -40,7 +40,7 @@ const pokemonSlice = createSlice({
     },
     openForm: (state) => {
       state.form = true;
-      //state.created = "loading";
+      state.created = "loading";
     },
     closeForm: (state) => {
       state.form = false;

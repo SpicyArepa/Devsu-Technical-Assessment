@@ -4,13 +4,14 @@ import PokemonTable from "../../components/pokemon-table/PokemonTable"
 import PrimaryButton from '../../components/primary-button/PrimaryButton'
 import addIcon from '../../assets/add.png'
 import { useDispatch, useSelector } from 'react-redux'
-import { openForm } from '../../redux/features/pokemon/pokemonSlice'
+import { cleanPokemon, openForm } from '../../redux/features/pokemon/pokemonSlice'
 
 const MainPage = () => {
   const dispatch = useDispatch()
   const {form} = useSelector(state => state.pokemon)
   const add = () => {
-    dispatch(openForm())
+    dispatch(cleanPokemon())
+    !form ? dispatch(openForm()) : null
   }
   return (<>
     <h3>Listado de Pokemon</h3>

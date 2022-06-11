@@ -14,6 +14,10 @@ const PokeForm = ( ) => {
     dispatch(closeForm())
   }
 
+  useEffect(()=>{
+    setInput(initialInput)
+  },[pokemon])
+
   const [error,setError] = useState({ error : 'empty form'})
 
   const initialInput = {

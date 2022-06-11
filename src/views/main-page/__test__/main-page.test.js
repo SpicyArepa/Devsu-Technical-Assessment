@@ -10,7 +10,6 @@ describe("Main Page mount", () => {
 
   it("must not display Poke-form at the beginning", () => {
     const {queryByRole} = render(<MainPage />)
-    console.log(queryByRole('form'))
     expect(queryByRole('form')).toBeNull()
   })
 
