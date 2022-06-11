@@ -10,15 +10,16 @@ const PokeForm = ( { cb, closeFunction, pokemonData } ) => {
   const initialInput = {
     name : pokemonData ? pokemonData.name : '',
     image : pokemonData ? pokemonData.image : '',
-    attack: pokemonData ? pokemonData.attack : '',
-    defense: pokemonData ? pokemonData.defense : ''
+    attack: pokemonData ? pokemonData.attack : 0,
+    defense: pokemonData ? pokemonData.defense : 0
   }
 
   const [input,setInput] = useState(initialInput)
   
   const handleChange = function (e) {
-    let value
-    isNaN(e.target.value) ? value = e.target.value : value = Number(e.target.value)
+    let value = e.target.value
+    e.target.id === 'attack' ? value = Number(e.target.value) : null
+    e.target.id === 'defense' ? value = Number(e.target.value) : null
     setInput({
       ...input,
       [e.target.id]: value,
@@ -30,7 +31,7 @@ const PokeForm = ( { cb, closeFunction, pokemonData } ) => {
     setError(validate(input))
     
   },[input])
-  let saveDisable = Object.values(error).length > 1 || (pokemonData ? compareData(input,pokemonData) : false)
+  let saveDisable = Object.values(error).length >= 1 || (pokemonData ? compareData(input,pokemonData) : false)
   return (
     <form onSubmit={(e) => cb(e,input)}>
     <h3> {pokemonData ? 'Editar Pokemon' : 'Nuevo Pokemon'}</h3>
