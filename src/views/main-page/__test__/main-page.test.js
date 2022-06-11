@@ -14,7 +14,7 @@ describe("Main Page mount", () => {
     expect(queryByRole('form')).toBeNull()
   })
 
-  xit("must display Poke-form in edit mode if the edit button has been press", async () => {
+  it("must display Poke-form in edit mode if the edit button has been press", async () => {
     const {getByText,getByRole,queryByRole,findByRole} = render(<MainPage />)
     const table = getByRole('table')
     const [Poke] = await within(table).findAllByRole('Pokemon')

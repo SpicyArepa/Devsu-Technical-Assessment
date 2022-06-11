@@ -1,15 +1,29 @@
 import React from "react";
-import { fireEvent, render, screen, within } from '../../../utils/__test-utils__/test-utils';
+import { getPokemonById,getPokemons, createPokemon,editPokemon } from "../../../redux/features/pokemon/pokemonSlice";
+import { fireEvent, render, within } from '../../../utils/__test-utils__/test-utils';
+import store from "../../../redux/store";
 import PokeForm from "../PokeForm";
+import { act } from "react-test-renderer";
+import { Provider } from "react-redux";
+
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+const component = <Provider store={store}>
+                    <PokeForm />
+                  </Provider>
 
 describe("Pokemon Form", () => {
-  it("must display the main page title", () => {
-    const {getByText} = render(<PokeForm />)
+
+  it("must display the form title", () => {
+    const {getByText} = render(component)
     expect(getByText(/Nuevo Pokemon/i))
   })
 
   it("must have 4 labels", () => {
-    const {getByLabelText}= render(<PokeForm />);
+    const {getByLabelText}= render(component);
     expect(getByLabelText('Nombre:'))
     expect(getByLabelText('Imagen:'))
     expect(getByLabelText('Ataque:'))
@@ -17,7 +31,7 @@ describe("Pokemon Form", () => {
   });
 
   it('must have 4 inputs, 2 text and 2 range', () =>{
-    const {getByRole} = render(<PokeForm />)
+    const {getByRole} = render(component)
     expect(getByRole('name')).toHaveAttribute('type','text')
     expect(getByRole('image')).toHaveAttribute('type','text')
     expect(getByRole('attack')).toHaveAttribute('type','range')
@@ -25,12 +39,12 @@ describe("Pokemon Form", () => {
   })
   
   it('must have 2 buttons', () =>{
-    const {getAllByRole} = render(<PokeForm />)
+    const {getAllByRole} = render(component)
     expect(getAllByRole('button')).toHaveLength(2)
   })
 
   it('Buttons have the text Guardar and Cancelar', async () =>{
-    const {getByRole} = render(<PokeForm />)
+    const {getByRole} = render(component)
     const save = getByRole('save-button')
     const cancel = getByRole('cancel-button')
     const guardar = await within(save).findByRole('button-text')
@@ -40,13 +54,13 @@ describe("Pokemon Form", () => {
   })
 
   it('Button Guardar initial disabled', async () =>{
-    const { getByRole } = render(<PokeForm />);
+    const { getByRole } = render(component);
     const save = getByRole('save-button')
     expect(await within(save).findByRole('button')).toBeDisabled();
   })
 
   it('Button Guardar enable when the form meets the requirement', async () =>{
-    const { getByRole } = render(<PokeForm />);
+    const { getByRole } = render(component);
     const save = getByRole('save-button')
     const button = await within(save).findByRole('button')
     fireEvent.change(getByRole('name'),{target : {value : 'Pikachu'}})
@@ -57,7 +71,7 @@ describe("Pokemon Form", () => {
   })
 
   it('Button Guardar must be disable when a input has an error', async () =>{
-    const { getByRole } = render(<PokeForm />);
+    const { getByRole } = render(component);
     const save = getByRole('save-button')
     const button = await within(save).findByRole('button')
     fireEvent.change(getByRole('name'),{target : {value : 'This a string with a more 15 characters'}})
@@ -73,78 +87,64 @@ describe("Pokemon Form", () => {
     expect(button).not.toBeDisabled();
   })
 
-  it('When click on Guardar call the cb funtion only when enable', async () =>{
-    const testfn = jest.fn(e => e.preventDefault())
-    const {getByRole} = render(<PokeForm cb={testfn}/>)
+  it('When click on Guardar call the handleSubmit funtion only when enable', async () =>{
+    jest.setTimeout(20000)
+    const {getByRole} = render(component)
     const save = getByRole('save-button')
     const button = await within(save).findByRole('button')
-    fireEvent.click(button)
-    expect(testfn).not.toHaveBeenCalled();
+    act( () => {fireEvent.click(button)} )
+    expect(store.getState().pokemon.created).toBe('loading')
     fireEvent.change(getByRole('name'),{target : {value : 'Pikachu'}})
     fireEvent.change(getByRole('image'),{target : {value : 'https://areajugones.sport.es/wp-content/uploads/2021/02/pikachu-pokemon.jpg'}})
     fireEvent.change(getByRole('attack'),{target : {value : 10}})
     fireEvent.change(getByRole('defense'),{target : {value : 15}})
-    fireEvent.click(button)
-    expect(testfn).toHaveBeenCalled();
-  })
-
-  it('When click on Guardar call the cb with the input in the first parameter and event in the second', async () =>{
-    const testfn = jest.fn( (e,input) => e.preventDefault())
-    const testInput = {
-      name : 'Pikachu',
-      image : 'https://areajugones.sport.es/wp-content/uploads/2021/02/pikachu-pokemon.jpg',
-      attack : 10,
-      defense : 15
-    }
-    const {getByRole} = render(<PokeForm cb={testfn}/>)
-    const save = getByRole('save-button')
-    const button = await within(save).findByRole('button')
-    fireEvent.change(getByRole('name'),{target : {value : testInput.name}})
-    fireEvent.change(getByRole('image'),{target : {value : testInput.image}})
-    fireEvent.change(getByRole('attack'),{target : {value : testInput.attack}})
-    fireEvent.change(getByRole('defense'),{target : {value : testInput.defense}})
-    fireEvent.click(button)
-    expect(testfn.mock.calls[0][1]).toEqual(testInput);
+    act( () => {fireEvent.click(button)})
+    await act (()=>sleep(2000))
+    expect(store.getState().pokemon.created).toBe('success')
   })
 
   describe('When pass a pokemon data, the title change, put input values from data and enable click', () =>{
-    const testInput = {
-      name : 'Pikachu',
-      image : 'https://areajugones.sport.es/wp-content/uploads/2021/02/pikachu-pokemon.jpg',
-      attack : 10,
-      defense : 15
-    }
+    let pokemon
+    beforeAll(async ()=>{
+      store.dispatch(getPokemonById(7949))
+      await act (()=>sleep(2000))
+      pokemon = store.getState().pokemon.pokemon
+    })
 
     it("Title must change", () => {
-      const {getByText} = render(<PokeForm pokemonData={testInput}/>)
+      const {getByText} = render(<Provider store={store}>
+        <PokeForm  />
+      </Provider>)
       expect(getByText(/Editar Pokemon/i))
     })
 
     it("Put data in inputs value", () => {
-      const {getByRole} = render(<PokeForm pokemonData={testInput}/>)
-      expect(getByRole('name').getAttribute('value')).toBe(testInput.name)
-      expect(getByRole('image').getAttribute('value')).toBe(testInput.image)
-      expect(Number(getByRole('attack').getAttribute('value'))).toBe(testInput.attack)
-      expect(Number(getByRole('defense').getAttribute('value'))).toBe(testInput.defense)
+      const {getByRole} = render(component)
+      expect(getByRole('name').getAttribute('value')).toBe(pokemon.name)
+      expect(getByRole('image').getAttribute('value')).toBe(pokemon.image)
+      expect(Number(getByRole('attack').getAttribute('value'))).toBe(pokemon.attack)
+      expect(Number(getByRole('defense').getAttribute('value'))).toBe(pokemon.defense)
     })
 
     it("Can't Save with same data", async () => {
-      const testfn = jest.fn( (e,input) => e.preventDefault())
-      const {getByRole} = render(<PokeForm cb={testfn} pokemonData={testInput}/>)
+      const {getByRole} = render(component)
       const save = getByRole('save-button')
       const button = await within(save).findByRole('button')
-      fireEvent.click(button)
-      expect(testfn).not.toHaveBeenCalled();
+      act( () => {fireEvent.click(button)})
+      await act (()=>sleep(1000))
+      expect(store.getState().pokemon.edited).toBe('loading')
     })
 
     it("Can Save when the inputs change", async () => {
-      const testfn = jest.fn( (e,input) => e.preventDefault())
-      const {getByRole} = render(<PokeForm cb={testfn} pokemonData={testInput}/>)
+      const testfn = jest.fn(editPokemon)
+      const {getByRole} = render(component)
       const save = getByRole('save-button')
       const button = await within(save).findByRole('button')
-      fireEvent.change(getByRole('attack'),{target : {value : (testInput.attack + 10)}})
-      fireEvent.click(button)
-      expect(testfn.mock.calls[0][1]).not.toEqual(testInput);
+      fireEvent.change(getByRole('attack'),{target : {value : (pokemon.attack + 10)}})
+      expect(store.getState().pokemon.edited).toBe('loading')
+      act( () => {fireEvent.click(button)})
+      await act (()=>sleep(1000))
+      expect(store.getState().pokemon.edited).toBe('success')
     })
 
   })

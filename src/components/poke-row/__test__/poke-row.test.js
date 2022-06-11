@@ -4,7 +4,11 @@ import PokeRow from "../PokeRow";
 import store from "../../../redux/store";
 import { getPokemons, getPokemonById } from "../../../redux/features/pokemon/pokemonSlice";
 import {act} from 'react-test-renderer'
+import { Provider } from "react-redux";
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 describe("Pokemon Row", () => {
   let Pokemons, component
@@ -14,9 +18,11 @@ describe("Pokemon Row", () => {
     component = (
       <table>
         <tbody>
-          <PokeRow
+          <Provider store={store}>
+            <PokeRow
             {...Pokemons[0]}
-          />
+            />
+          </Provider>
         </tbody>
       </table>
     )
@@ -39,9 +45,8 @@ describe("Pokemon Row", () => {
     const {findByRole} = render(component);
     const pokemon = await findByRole('Pokemon')
     const edit = await within(pokemon).findByRole('edit-button');
-    fireEvent.click(edit)
-    setTimeout(() => {
-      expect(store.getState().pokemon.pokemon).toEqual(Pokemons[0]);
-    },500)
+    act(()=> {fireEvent.click(edit)})
+    await act (()=>sleep(1000))
+    expect(store.getState().pokemon.pokemon).toEqual(Pokemons[0]);
   });
 });
